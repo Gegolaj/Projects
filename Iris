@@ -1,9 +1,19 @@
 # We start with importig the libraries 
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report
+from sklearn import metrics 
+from sklearn.metrics import confusion_matrix
 
 # Than we load our dataset
 iris = pd.read_csv('C:/Users/intel/Downloads/Iris.csv')
 
-# Code to check zhe first 5 rows of data
+# Code to check the first 5 rows of data
 iris.head(5)
   Id	SepalLengthCm	SepalWidthCm	PetalLengthCm	PetalWidthCm	Species
 0	 1	  5.1				    3.5             1.4           0.2            Iris-setosa
@@ -44,7 +54,7 @@ Column         Non-Null Count  Dtype
  Species          0
  # We dont have missing data in our dataset
  
- # Next we will do some graphical representation of data
+# Next we will do some graphical representation of data
 fig, ax = plt.subplots(figsize = (5, 5))
 sns.countplot(x = iris.Species.values, data=iris)
 labels = [item.get_text() for item in ax.get_xticklabels()]
