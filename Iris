@@ -122,67 +122,42 @@ X_train,X_test,y_train,y_test = train_test_split(X,y,train_size=0.8,random_state
 # we have split data in ratio 80/20, meaning we have 80% train data and 20% test data
 
 # Beacuse we have three categories in our target data we will use multinominal logistic regresion
-logit_model=sm.MNLogit(y_train,sm.add_constant(X_train))
-logit_model
-result=logit_model.fit()
-stats1=result.summary()
-stats2=result.summary2()
-print(stats1)
-print(stats2)
 
-Dep. Variable:             Species_le   No. Observations:                  120
-Model:                        MNLogit   Df Residuals:                      110
-Method:                           MLE   Df Model:                            8
-Date:                Sat, 26 Feb 2022   Pseudo R-squ.:                  0.9582
-Time:                        11:52:47   Log-Likelihood:                -5.4986
-converged:                      False   LL-Null:                       -131.51
-Covariance Type:            nonrobust   LLR p-value:                 6.407e-50
-=================================================================================
- Species_le=1       coef    std err          z      P>|z|      [0.025      0.975]
----------------------------------------------------------------------------------
-const            -5.4751    885.501     -0.006      0.995   -1741.024    1730.074
-SepalLengthCm    -1.5733    248.190     -0.006      0.995    -488.016     484.869
-SepalWidthCm     -4.6972    193.892     -0.024      0.981    -384.719     375.324
-PetalLengthCm     9.3884    216.659      0.043      0.965    -415.255     434.032
-PetalWidthCm      3.5503    500.618      0.007      0.994    -977.642     984.743
----------------------------------------------------------------------------------
- Species_le=2       coef    std err          z      P>|z|      [0.025      0.975]
----------------------------------------------------------------------------------
-const           -51.0484    885.916     -0.058      0.954   -1787.412    1685.316
-SepalLengthCm    -3.0441    248.201     -0.012      0.990    -489.510     483.422
-SepalWidthCm    -10.9414    193.946     -0.056      0.955    -391.069     369.187
-PetalLengthCm    18.0411    216.709      0.083      0.934    -406.701     442.783
-PetalWidthCm     21.6533    500.723      0.043      0.966    -959.747    1003.053
-=================================================================================
-                          Results: MNLogit
-====================================================================
-Model:               MNLogit           Pseudo R-squared:  0.958     
-Dependent Variable:  Species_le        AIC:               30.9973   
-Date:                2022-02-26 11:52  BIC:               58.8722   
-No. Observations:    120               Log-Likelihood:    -5.4986   
-Df Model:            8                 LL-Null:           -131.51   
-Df Residuals:        110               LLR p-value:       6.4070e-50
-Converged:           0.0000            Scale:             1.0000    
-No. Iterations:      35.0000                                        
--------------------------------------------------------------------
-Species_le = 0  Coef.  Std.Err.    t    P>|t|    [0.025     0.975] 
--------------------------------------------------------------------
-        const  -5.4751 885.5005 -0.0062 0.9951 -1741.0243 1730.0740
-SepalLengthCm  -1.5733 248.1895 -0.0063 0.9949  -488.0159  484.8693
- SepalWidthCm  -4.6972 193.8921 -0.0242 0.9807  -384.7187  375.3243
-PetalLengthCm   9.3884 216.6588  0.0433 0.9654  -415.2550  434.0318
- PetalWidthCm   3.5503 500.6176  0.0071 0.9943  -977.6420  984.7427
---------------------------------------------------------------------
-Species_le = 1  Coef.   Std.Err.    t    P>|t|    [0.025     0.975] 
---------------------------------------------------------------------
-         const -51.0484 885.9163 -0.0576 0.9540 -1787.4124 1685.3155
- SepalLengthCm  -3.0441 248.2014 -0.0123 0.9902  -489.5099  483.4217
-  SepalWidthCm -10.9414 193.9464 -0.0564 0.9550  -391.0693  369.1865
- PetalLengthCm  18.0411 216.7090  0.0833 0.9337  -406.7007  442.7829
-  PetalWidthCm  21.6533 500.7234  0.0432 0.9655  -959.7465 1003.0531
-====================================================================
- 
- 
+log_reg = LogisticRegression()
+log_reg.fit(X_train,y_train)
+
+# The r2 score will be calculated by the code bellow
+log_reg.score(X_train, y_train)
+0.9833333333333333
+
+# Next we will do classification report of the model
+y_pred = log_reg.predict(X_test)
+class_report=classification_report(y_test, y_pred)
+print(class_report)
+
+precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        11
+           1       1.00      0.92      0.96        13
+           2       0.86      1.00      0.92         6
+
+    accuracy                           0.97        30
+   macro avg       0.95      0.97      0.96        30
+weighted avg       0.97      0.97      0.97        30
+# The accuracy of the model is 97% 
+
+# Next we will do confusion matrix
+confmtrx = np.array(confusion_matrix(y_test, y_pred))
+pd.DataFrame(confmtrx, index=['Iris-setosa','Iris-versicolor', 'Iris-virginica'],
+columns=['predicted_Iris-setosa', 'predicted_Iris-versicolor', 'predicted_Iris-virginica'])
+
+               predicted_Iris-setosa	predicted_Iris-versicolor	predicted_Iris-virginica
+Iris-setosa	    11	                       0	                      0
+Iris-versicolor	0	                         12	                      1
+Iris-virginica	0	                         0	                      6
+
+
+
  
  
  
