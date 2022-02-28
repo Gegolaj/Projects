@@ -156,7 +156,14 @@ Iris-setosa	    11	                       0	                      0
 Iris-versicolor	0	                         12	                      1
 Iris-virginica	0	                         0	                      6
 
-
+# Last thing is that we will write the model with coefficients
+print(log_reg.coef_)
+print(log_reg.intercept_)
+[[-0.43453323  0.81754654 -2.35369506 -0.97520089]
+ [ 0.61880037 -0.42290935 -0.20465871 -0.82623928]
+ [-0.18426714 -0.39463719  2.55835376  1.80144017]]
+ [  9.54044073   1.61059714 -11.15103786]
+ 
 
  
  
